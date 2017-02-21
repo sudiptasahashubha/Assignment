@@ -143,7 +143,7 @@ class PostController extends Controller
 	  public function searchforpostresult(Request $request){
 	        $searchstring=$request->input('searchpostname');
 	        $previoussearch=$searchstring;
-	        $searchstring=$searchstring.'%';
+	        $searchstring='%'.$searchstring.'%';
 	        $posts = Post::where('active',1)->where('title','LIKE',$searchstring)->orderBy('created_at','desc')->paginate(5);
 	  		$title = 'Posts with Title '.$previoussearch;
 	        return view('home')->withPosts($posts)->withTitle($title);
@@ -151,7 +151,7 @@ class PostController extends Controller
 	  public function searchforuserresult(Request $request){
 		      $searchstring=$request->input('searchusername');
 		      $previoussearch=$searchstring;
-		      // $searchstring=$searchstring.'%';
+		      $searchstring='%'.$searchstring.'%';
 		      // $posts=Post::whereHas('author',function($query){
 		      // $query->where('name','LIKE','ami ami');})->orderBy('created_at','desc')->paginate(5);
 		      // $posts=DB::table('posts')

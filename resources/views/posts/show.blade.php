@@ -48,7 +48,7 @@
             <div class="list-group-item">
              
               @if(!Auth::guest() && ($comment->author->id == Auth::user()->id || Auth::user()->is_admin() ))
-          
+                <button class="btn" style="float: right"><a href="{{  url('commentdelete/'.$comment->id)}}">Delete</a></button>
                 <button class="btn" style="float: right"><a href="{{ url('commentedit/'.$comment->slug)}}">Edit</a></button>
           
               @endif
@@ -56,7 +56,7 @@
               
               
 
-              <p>{{ $comment->created_at->format('M d,Y \a\t h:i a') }} By {{ $comment->author->name }}</p>
+              <p>{{ \Carbon\Carbon::parse($comment->created_at)->diffForHumans() }} By {{ $comment->author->name }}</p>
             </div>
             <div class="list-group-item">
               <p>{{ $comment->body }}</p>

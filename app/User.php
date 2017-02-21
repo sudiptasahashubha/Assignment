@@ -29,29 +29,29 @@ class User extends Authenticatable
 
       public function posts()
       {
-        return $this->hasMany('App\Post','author_id');
+          return $this->hasMany('App\Post','author_id');
       }
       // user has many comments
       public function comments()
       {
-        return $this->hasMany('App\Comment','from_user');
+          return $this->hasMany('App\Comment','from_user');
       }
       public function can_post()
       {
-        $role = $this->role;
-        if($role == 'author' || $role == 'admin')
-        {
-          return true;
-        }
-        return false;
+          $role = $this->role;
+          if($role == 'author' || $role == 'admin')
+          {
+              return true;
+          }
+          return false;
       }
       public function is_admin()
       {
-        $role = $this->role;
-        if($role == 'admin')
-        {
-          return true;
-        }
-        return false;
+          $role = $this->role;
+          if($role == 'admin')
+          {
+              return true;
+          }
+          return false;
       }
 }
