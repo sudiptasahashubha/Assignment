@@ -22,7 +22,7 @@ class PostController extends Controller
 	  public function index()
 	  {
 		    //fetch 5 posts from database which are active and latest
-		    $posts = Post::where('active',1)->orderBy('created_at','desc')->paginate(5);
+		    $posts = Post::where('active',1)->orderBy('created_at','desc')->paginate(16);
 		    //page heading
 		    $title = 'Latest Posts';
 		    //return home.blade.php template from resources/views folder
@@ -53,18 +53,9 @@ class PostController extends Controller
 		    $post->slug = $forslug;
 		    $post->author_id = $request->user()->id;
 		    $post->author_name=$request->user()->name;
-		    if($request->has('save'))
-		    {
-		      $post->active = 0;
-		      $message = 'Post saved successfully';            
-		    }            
-		    else 
-		    {
-		      $post->active = 1;
-		      $message = 'Post published successfully';
-		    }
+		    $post->active = 1;
+		    $message = 'Post published successfully!';
 		    $post->save();
-		    //return redirect('edit/'.$post->slug)->withMessage($message);
 		    return redirect('/home') ->withMessage($message);
 	  }
 	  public function show($slug)
@@ -95,18 +86,9 @@ class PostController extends Controller
 			      $slug = $post->slug;
 			      $post->title = $request->input('title');
 			      $post->body = $request->input('body');
-			      if($request->has('save'))
-			      {
-				        $post->active = 0;
-				        $message = 'Post saved successfully';
-				        //$landing = 'edit/'.$post->slug;
-			      }            
-			      else {
-				        $post->active = 1;
-				        $message = 'Post updated successfully';
-				        //$landing = $post->slug;
-			      }
-			      $post->save();
+			   	  $post->active = 1;
+				  $message = 'Post updated successfully!';
+				  $post->save();
 			      return redirect('/home')->withMessage($message);
 		    }
 		    else
@@ -121,7 +103,7 @@ class PostController extends Controller
 		    if($post && ($post->author_id == $request->user()->id || $request->user()->is_admin()))
 		    {
 			      $post->delete();
-			      $data['message'] = 'Post deleted Successfully';
+			      $data['message'] = 'Post deleted Successfully!';
 			      return redirect('/home')->with($data);
 		    }
 		    else 
@@ -144,7 +126,7 @@ class PostController extends Controller
 	        $searchstring=$request->input('searchpostname');
 	        $previoussearch=$searchstring;
 	        $searchstring='%'.$searchstring.'%';
-	        $posts = Post::where('active',1)->where('title','LIKE',$searchstring)->orderBy('created_at','desc')->paginate(5);
+	        $posts = Post::where('active',1)->where('title','LIKE',$searchstring)->orderBy('created_at','desc')->paginate(16);
 	  		$title = 'Posts with Title '.$previoussearch;
 	        return view('home')->withPosts($posts)->withTitle($title);
 	  }
@@ -152,21 +134,15 @@ class PostController extends Controller
 		      $searchstring=$request->input('searchusername');
 		      $previoussearch=$searchstring;
 		      $searchstring='%'.$searchstring.'%';
-		      // $posts=Post::whereHas('author',function($query){
-		      // $query->where('name','LIKE','ami ami');})->orderBy('created_at','desc')->paginate(5);
-		      // $posts=DB::table('posts')
-		      // 		 ->join('users','posts.author_id','=','users.id')
-		      // 		 ->select('posts.*')
-		      // 		 ->where('posts.active',1)->where('users.name','LIKE',$searchstring)->orderBy('posts.created_at','desc')->paginate(5);
-		      $posts=Post::where('active',1)->where('author_name','LIKE',$searchstring)->orderBy('created_at','desc')->paginate(5);
-		      $title = 'Posts By Searched User ';
+		      $posts=Post::where('active',1)->where('author_name','LIKE',$searchstring)->orderBy('created_at','desc')->paginate(16);
+		      $title = 'Posts By User '.$previoussearch;
 		      return view('home')->withPosts($posts)->withTitle($title);
 	  }
 	  public function searchforpostcontentresult(Request $request){
-	        $searchstring=$request->input('searchpostname');
+	        $searchstring=$request->input('searchpostcontentname');
 	        $previoussearch=$searchstring;
 	        $searchstring='%'.$searchstring.'%';
-	        $posts = Post::where('active',1)->where('body','LIKE',$searchstring)->orderBy('created_at','desc')->paginate(5);
+	        $posts = Post::where('active',1)->where('body','LIKE',$searchstring)->orderBy('created_at','desc')->paginate(16);
 	  		$title = 'Posts with keyword '.$previoussearch;
 	        return view('home')->withPosts($posts)->withTitle($title);
 	  }

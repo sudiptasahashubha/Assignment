@@ -20,6 +20,5 @@ Add New Post
     <textarea name='body'class="form-control">{{ old('body') }}</textarea>
   </div>
   <input type="submit" name='publish' class="btn btn-success" value = "Publish"/>
-  <input type="submit" name='save' class="btn btn-default" value = "Save Draft" />
 </form>
 @endsection

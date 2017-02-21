@@ -25,7 +25,10 @@ There is no post till now.
           @endif
         @endif
       </h3>
-      <p>{{ \Carbon\Carbon::parse($post->created_at)->diffForHumans() }} By {{ $post->author->name }} </p>
+      @if($post->updated_at->gt($post->created_at))
+      <p>Created {{ $post->created_at->format('M d,Y \a\t h:i a') }} (GMT), Last Updated {{ $post->updated_at->format('M d,Y \a\t h:i a') }} (GMT) By {{ $post->author->name }} </p>
+      @else <p>Created {{ $post->created_at->format('M d,Y \a\t h:i a') }} (GMT) By {{ $post->author->name }} </p>
+      @endif
     </div>
     <div class="list-group-item">
       <article>

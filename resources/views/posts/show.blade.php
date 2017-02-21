@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title')
+
   @if($post)
     {{ $post->title }}
     @if(!Auth::guest() && ($post->author_id == Auth::user()->id || Auth::user()->is_admin()))
@@ -8,11 +9,18 @@
   @else
     Page does not exist
   @endif
+
 @endsection
+
 @section('title-meta')
-<p>{{ \Carbon\Carbon::parse($post->created_at)->diffForHumans() }} By {{ $post->author->name }} </p>
+
+@if($post->updated_at->gt($post->created_at)) <p>Created {{ $post->created_at->format('M d,Y \a\t h:i a') }} (GMT), Last Updated {{ $post->updated_at->format('M d,Y \a\t h:i a') }} (GMT) By {{ $post->author->name }} </p>
+@else <p>Created {{ $post->created_at->format('M d,Y \a\t h:i a') }} (GMT) By {{ $post->author->name }}  </p>
+@endif
+
 @endsection
 @section('content')
+
 @if($post)
   <div>
     {!! $post->body !!}
@@ -53,10 +61,9 @@
           
               @endif
               
-              
-              
-
-              <p>{{ \Carbon\Carbon::parse($comment->created_at)->diffForHumans() }} By {{ $comment->author->name }}</p>
+              @if($comment->updated_at->gt($comment->created_at)) <p>Created {{ $comment->created_at->format('M d,Y \a\t h:i a') }} (GMT), Last Updated {{ $comment->updated_at->format('M d,Y \a\t h:i a') }} (GMT) By {{ $comment->author->name }} </p>
+              @else <p>Created {{ $comment->created_at->format('M d,Y \a\t h:i a') }} (GMT) By {{ $comment->author->name }}  </p>
+              @endif
             </div>
             <div class="list-group-item">
               <p>{{ $comment->body }}</p>
@@ -70,4 +77,5 @@
 @else
 404 error
 @endif
+
 @endsection

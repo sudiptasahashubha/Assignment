@@ -15,7 +15,7 @@
                             <label class="col-md-4 control-label">Author Name</label>
 
                             <div class="col-md-6">
-                                <input required="required" type="text" class="form-control" name="searchpostname" >
+                                <input required="required" type="text" class="form-control" name="searchusername" >
                             </div>
                         </div>
                         <div class="form-group">

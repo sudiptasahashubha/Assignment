@@ -29,7 +29,7 @@ class CommentController extends Controller
 		    $input['slug']=$forslug;
 		    $slug = $request->input('slug');
 		    Comment::create( $input );
-		    return redirect($slug)->with('message', 'Comment published');     
+		    return redirect($slug)->with('message', 'Comment published successfully!');     
 	  }
 
 	  public function edit(Request $request,$slug)
@@ -52,9 +52,9 @@ class CommentController extends Controller
 			      $slug = $comment->slug;
 			      $comment->slug = $slug;
 			      $comment->body = $request->input('body');
-			      $message='Comment updated succesfully';
+			      $message='Comment updated succesfully!';
 			      $comment->save();
-			      return redirect($anoslug)->with('message', 'Comment updated successfully'); 
+			      return redirect($anoslug)->with('message', $message); 
 		    }
 		    else
 		    {
@@ -70,7 +70,7 @@ class CommentController extends Controller
 		    if($comment && ($comment->author->id == $request->user()->id || $request->user()->is_admin()))
 		    {
 			      $comment->delete();
-			      return redirect($anoslug)->with('message', 'Comment deleted successfully'); 
+			      return redirect($anoslug)->with('message', 'Comment deleted successfully!'); 
 		    }
 		    else{
 		      	  return redirect($anoslug)->with('message', 'you do not have sufficient permission');
